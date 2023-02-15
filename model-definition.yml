@@ -1,0 +1,271 @@
+kind: M
+api_version: v1beta2
+metadata:
+  display_name: Data Inputs
+  name: data-inputs
+  publisher: Newcastle University
+  summary: >
+    This model takes all of the parameter/ input data from the user specifically for the urban flooding workflow. 
+    This data is then propogated through the model, reducing user input. 
+  source_code: https://github.com/OpenCLIM/data_inputs
+  description: >
+    All data/ choices made by the user are inputted at this stage of the model to reduce user error. 
+    This process simplifies the user input methods.
+
+spec:
+  inputs:
+    parameters:
+      - name: LOCATION
+        title: location
+        type: string
+        description: The city/location of interest
+        default: Newcastle
+        required: true
+
+      - name: YEAR
+        title: Year
+        type: number
+        description: The year of interest (range 2030-2080)
+        default: '2050'
+        required: true
+          - name: '2050'
+            title: '205'
+          - name: '2080'
+            title: '2080'
+
+      - name: SSP
+        title: SSP
+        type: string
+        description: The socio-economic pathway of interest
+        default: 'SSP1'
+        required: true
+        options:
+          - name: 'SSP1'
+            title: 'SSP1'
+          - name: 'SSP2'
+            title: 'SSP2'
+          - name: 'SSP3'
+            title: 'SSP3'
+          - name: 'SSP4'
+            title: 'SSP4'
+          - name: 'SSP5'
+            title: 'SSP5'        
+
+      - name: RAINFALL_MODE
+        title: Rainfall mode
+        type: string
+        description:
+          If `RAINFALL_MODE` is set to "return_period" then the rainfall depth corresponding to the `DURATION` and `RETURN_PERIOD` are extracted from the relevant CSV file in the `future-drainage` dataslot.
+          If the `TIME_HORIZON` is anything other than "baseline", the rainfall depth is then uplifted by the percentage given in the CSV file.
+          If `RAINFALL_MODE` is set to "total_depth" then the `TOTAL_DEPTH` parameter is used to define the amount of rainfall and the `RETURN_PERIOD` and `TIME_HORIZON` parameters are ignored.
+          The rainfall depth value, either directly provided or extracted from FUTURE-DRAINAGE, is used to generate a storm profile in combination with the summer profile and `DURATION` parameter.
+        default: return_period
+        required: true
+        options:
+          - name: return_period
+            title: Return Periods
+          - name: total_depth
+            title: Total depth
+
+      - name: RETURN_PERIOD
+        title: Return Period (years)
+        description:
+          The return period of the rainfall event.
+          This parameter is only used if `RAINFALL_MODE` is set to "return_period".
+          If this is provided, then data must be present in the `future-drainage` dataslot.
+          This return period is used to extract a rainfall depth from the FUTURE-DRAINAGE dataset and select the percentage uplift if required.
+        type: string
+        default: '100'
+        required: false
+        options:
+          - name: '2'
+            title: '2'
+          - name: '5'
+            title: '5'
+          - name: '10'
+            title: '10'
+          - name: '25'
+            title: '25'
+          - name: '30'
+            title: '30'
+          - name: '100'
+            title: '100'
+
+      - name: TOTAL_DEPTH
+        title: Total depth (mm)
+        description:
+          The total depth of rainfall during the event.
+          This parameter is only used if `RAINFALL_MODE` is set to "total_depth".
+        type: number
+        default: 40
+        required: false
+        min: 10
+        max: 100
+
+      - name: DURATION
+        title: Duration (hours)
+        description:
+          The duration of the rainfall event.
+          This value is used in combination with the rainfall depth and summer profile to generate a storm profile.
+          If `RAINFALL_MODE` is "return_period", this value is also used to extract a rainfall depth from FUTURE-DRAINAGE.
+          Only specific values are available as there is a limited number of durations within FUTURE-DRAINAGE.
+        type: string
+        default: '1'
+        required: true
+        options:
+          - name: '1'
+            title: '1'
+          - name: '3'
+            title: '3'
+          - name: '6'
+            title: '6'
+          - name: '12'
+            title: '12'
+          - name: '24'
+            title: '24'
+
+      - name: POST_EVENT_DURATION
+        title: Post-event Duration (hours)
+        description:
+          The duration of the dry period following the rainfall event.
+          After the rainfall event ends, CityCAT will continue to run for this period of time.
+          This is to allow water to continue propogating and accumulating on the floodplain.
+        type: number
+        required: true
+        default: 0
+        min: 0
+        max: 10
+
+      - name: SIZE
+        title: Domain Size (km)
+        description:
+          The width and height of the domain to create, centered at the location specified by `X` and `Y`.
+          This value is only used if no data is available in the `boundary` dataslot.
+        type: number
+        default: 6
+        required: true
+        min: 0.1
+        max: 10000
+
+      - name: OUTPUT_INTERVAL
+        title: Output Interval (seconds)
+        description:
+          Time between depth and velocity outputs (s).
+          Decreasing this value will lead to a higher number of output files.
+        type: integer
+        default: 600
+        required: true
+
+      - name: X
+        title: Domain Centroid X (OSGB)
+        description:
+          The X coordinate of the domain centroid in OSGB.
+          This value is only used if no data is available in the `boundary` dataslot.
+        type: integer
+        default: 258722
+        required: true
+
+      - name: Y
+        title: Domain Centroid Y (OSGB)
+        description:
+          The Y coordinate of the domain centroid in OSGB.
+          This value is only used if no data is available in the `boundary` dataslot.
+        type: integer
+        default: 665028
+        required: true
+
+      - name: OPEN_BOUNDARIES
+        title: Open Boundaries
+        description:
+          If `OPEN_BOUNDARIES` is "True", water will be allowed to leave the domain at the edges.
+          If it is "False", water will bounce back from the edges of the domain and cannot leave.
+        type: boolean
+        default: True
+        required: true
+
+      - name: PERMEABLE_AREAS
+        title: Permeable areas
+        type: string
+        description:
+          If `PERMEABLE_AREAS` is set to "polygons", polygons from the `green_areas` dataslot are used to define areas which are permeable.
+          Otherwise, all cells are treated as being "permeable" or "impermeable", depending on the selection.
+        default: polygons
+        required: true
+        options:
+          - name: polygons
+            title: Polygons
+          - name: permeable
+            title: Permeable
+          - name: impermeable
+            title: Impermeable
+
+      - name: ROOF_STORAGE
+        title: Roof storage
+        description:
+          Depth of water that can be stored on rooftops (m).
+          This value is uniformly applied to all buildings.
+        type: number
+        default: 0
+        required: true
+        min: 0
+        max: 10
+
+      - name: TIME_HORIZON
+        title: Time horizon
+        description:
+          The time horizon to use when selecting rainfall uplifts, baseline indicates no uplift.
+          This is used in combination with the `RETURN_PERIOD` and `DURATION` to select a rainfall depth from FUTURE-DRAINAGE.
+        type: string
+        default: '2070'
+        required: false
+        options:
+          - name: '2070'
+            title: '2070'
+          - name: '2050'
+            title: '2050'
+          - name: baseline
+            title: baseline
+
+      - name: DISCHARGE
+        title: Discharge (m3/s)
+        description:
+          Value of discharge boundary condition, if provided then the `flow_polygons` dataslot is required.
+          Discharge is distributed uniformly over the `DURATION` and gets multiplied by the number of cell boundaries intersected by the polygons in the `flow_polygons` dataslot.
+          Therefore, it is normally advisable to divide the total desired discharge by the number of overlapping cell boundaries.
+        type: number
+        default: 0
+        required: true
+        min: 0
+        max: 1000
+
+
+
+
+    dataslots:
+      - name: Boundary File
+        description:
+          A .gpkg or .shp file containing the boundary of the location of interest.
+        default:
+          - 09a6bbc0-8d2c-4e1b-a0d2-7f11833f20ea
+        path: inputs/boundary/
+        required: true
+        
+      - name: SSP Data Sets
+        description:
+          Zip files of the data for each SSP.
+        default:
+          - 230e2589-4731-4eba-8ab5-726a2f419fee
+          - ef462ecf-3ef2-4400-af36-3e8bd4417205
+          - f428caa4-14da-4d71-8b1f-fe6bf123b08d
+          - 98b5c431-62d1-4f38-910d-e908569095d6
+          - cd833da8-db1e-40b1-8e87-069cd792eb38
+          - 082b1e14-dd36-4840-bd6c-45481ced2262
+        path: inputs/ssps/
+        required: true
+      
+  outputs:
+    datasets:
+      - name: outputs
+        type: folder
+        description: path to model outputs
+        
