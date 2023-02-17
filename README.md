@@ -1,27 +1,24 @@
-# vector-mesh
-This model takes national scale datasets and clips them to a geographical area.
+# flood-impact-inputs
+This model takes all of the parameter/ input data from the user specifically for the urban flooding workflow. 
+This data is then propogated through the model, reducing user input. 
 
 ## Description
-National scale datasets are too large to upload onto DAFNI, and processing these large datasets is time extensive. Models such as City Catchment Analysis Tool,
-require vector data from the national datasets for a city of interest. The national data sets have been uploaded onto DAFNI in zip format for each 100km OS grid cell. 
-Geopackage files within the zip folders contain the vector data per 5km OS grid cell. This model identifies which 5km grid cells are contained within the boundary 
-file for the city of interest, and merges the geopackage to generate a single gpkg file for the city.
+All data/ choices made by the user are inputted at this stage of the model to reduce user error. 
+This process simplifies the user input methods.
 
 ## Input Parameters
 *Location
-  * Description: The name of the place of interest outlinned by the boundary file.
+  * Description: 
 
 
 ## Input Files (data slots)
-* Vectors
-  * Description: Any required vector files (buildings, greenspaces etc.) These should be saved in files of 5km OS grid cells, and zipped at the 100m grid cell level.
-  * Location: /data/vectors
 * Boundary
   * Description: A .gpkg of the geographical area of interest. 
   * Location: /data/boundary
-* Grids
-  * Description: A .gpkg of the OS British National Grid cells.
-  * Location: /data/grids
+* SSP Datasets
+  * Description: zipped outputs for all of the SSP scenario UDM outputs.
+  * Location: /data/ssps
 
 ## Outputs
-The model should output only one file - a .gpkg file of the chosen area containing the vectors of interest.
+The model should output a csv containing a list of all parameters and user responses.
+The boundary file, renamed after the chosen location.
