@@ -47,11 +47,29 @@ shutil.copy(src,dst)
 # Retain the file name containing the SSP and year
 ssps = glob(ssps_path + "/" + ssp + "-" + year + "*.*",recursive = True)
 print('ssp_data:',ssps)
-file_path = os.path.splitext(ssps[0])
-filename=file_path[0].split("/")
-src=ssps[0]
+
+# Create a list of all of the files in the folder
+for i in range(0,len(ssps)):
+    test = ssps[i]
+    file_path = os.path.splitext(test)
+    print('Filepath:',file_path)
+    filename[i]=file_path[0].split("/")
+    print('Filename:',filename[-1])
+
+file =[]
+
+# Identify which file in the list relates to the chosen year / SSP
+for i in range(0,len(ssps)):
+    if ssp in filename[i][-1]:
+        if year in filename[i][-1]:
+            file = ssps[i]
+
+print('File:',file)
+
+# Move that file into the correct folder.
+src=file
 print('src:',src)
-dst=os.path.join(outputs_path, filename[-1] + '.zip')
+dst = os.path.join(outputs_path, filename[-1] + '.zip')
 print('dst:',dst)
 shutil.copy(src,dst)
 
