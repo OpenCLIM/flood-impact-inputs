@@ -26,13 +26,13 @@ spec:
         title: Year
         type: number
         description: The year of interest (range 2030-2080)
-        default: '2050'
+        default: 2050
         required: true
         options:
-          - name: '2050'
-            title: '205'
-          - name: '2080'
-            title: '2080'
+          - name: 2050
+            title: 2050
+          - name: 2080
+            title: 2080
 
       - name: SSP
         title: SSP
@@ -239,9 +239,6 @@ spec:
         min: 0
         max: 1000
 
-
-
-
     dataslots:
       - name: Boundary File
         description:
@@ -261,8 +258,6 @@ spec:
           - 98b5c431-62d1-4f38-910d-e908569095d6
           - cd833da8-db1e-40b1-8e87-069cd792eb38
           - 082b1e14-dd36-4840-bd6c-45481ced2262
-          - d484652a-c0a2-4194-80e8-1ba755be38d9
-          - 706c7b28-551c-4fdf-8530-cd875191726b
         path: inputs/ssps/
         required: true
       
