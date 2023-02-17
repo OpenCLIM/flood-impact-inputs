@@ -38,19 +38,19 @@ spec:
         title: SSP
         type: string
         description: The socio-economic pathway of interest
-        default: 'SSP1'
+        default: 'ssp1'
         required: true
         options:
-          - name: 'SSP1'
-            title: 'SSP1'
-          - name: 'SSP2'
-            title: 'SSP2'
-          - name: 'SSP3'
-            title: 'SSP3'
-          - name: 'SSP4'
-            title: 'SSP4'
-          - name: 'SSP5'
-            title: 'SSP5'        
+          - name: 'ssp1'
+            title: 'ssp1'
+          - name: 'ssp2'
+            title: 'ssp2'
+          - name: 'ssp3'
+            title: 'ssp3'
+          - name: 'ssp4'
+            title: 'ssp4'
+          - name: 'ssp5'
+            title: 'ssp5'        
 
       - name: RAINFALL_MODE
         title: Rainfall mode
