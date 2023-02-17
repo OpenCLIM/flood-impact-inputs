@@ -28,6 +28,7 @@ spec:
         description: The year of interest (range 2030-2080)
         default: '2050'
         required: true
+        options:
           - name: '2050'
             title: '205'
           - name: '2080'
