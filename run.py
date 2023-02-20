@@ -45,8 +45,12 @@ shutil.copy(src,dst)
 
 # Identify which of the SSP datasets is needed and move into the correct output folder
 # Retain the file name containing the SSP and year
-ssps = glob(ssps_path + "/" + ssp + "-" + year + "*.*",recursive = True)
+ssps = glob(ssps_path + "/*.*",recursive = True)
 print('ssp_data:',ssps)
+
+filename=[]
+filename=['xx' for n in range(len(ssps))]
+print('filename:',filename)
 
 # Create a list of all of the files in the folder
 for i in range(0,len(ssps)):
@@ -54,7 +58,7 @@ for i in range(0,len(ssps)):
     file_path = os.path.splitext(test)
     print('Filepath:',file_path)
     filename[i]=file_path[0].split("/")
-    print('Filename:',filename[-1])
+    print('Filename:',filename[i])
 
 file =[]
 
