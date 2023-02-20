@@ -67,13 +67,13 @@ for i in range(0,len(ssps)):
     if ssp in filename[i][-1]:
         if year in filename[i][-1]:
             file = ssps[i]
+            dst = os.path.join(outputs_path, filename[i][-1] + '.zip')
 
 print('File:',file)
 
 # Move that file into the correct folder.
 src=file
 print('src:',src)
-dst = os.path.join(outputs_path, filename[-1] + '.zip')
 print('dst:',dst)
 shutil.copy(src,dst)
 
