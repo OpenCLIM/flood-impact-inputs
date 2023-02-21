@@ -14,6 +14,9 @@ if not os.path.exists(outputs_path):
 boundary_outputs_path = os.path.join(outputs_path, 'boundary')
 if not os.path.exists(boundary_outputs_path):
     os.mkdir(boundary_outputs_path)
+parameter_outputs_path = os.path.join(outputs_path, 'parameters')
+if not os.path.exists(parameter_outputs_path):
+    os.mkdir(parameter_outputs_path)
 
 # Read environment variables
 ssp = os.getenv('SSP')
@@ -78,7 +81,7 @@ print('dst:',dst)
 shutil.copy(src,dst)
 
 # Print all of the input parameters to an excel sheet to be read in later
-with open(os.path.join(outputs_path,location + '-'+ ssp + '-' + year +'-parameters.csv'), 'w') as f:
+with open(os.path.join(parameter_outputs_path,location + '-'+ ssp + '-' + year +'-parameters.csv'), 'w') as f:
     f.write('PARAMETER, VALUE\n')
     f.write('LOCATION, %s\n' %location)
     f.write('SSP, %s\n' %ssp)
