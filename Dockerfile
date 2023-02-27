@@ -6,6 +6,7 @@ RUN mkdir src
 WORKDIR src
 
 COPY environment.yml .
+RUN conda install geojson
 RUN conda env update -f environment.yml -n base
 
 COPY run.py .
