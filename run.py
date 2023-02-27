@@ -2,6 +2,8 @@ import os
 import glob
 from glob import glob
 import shutil
+import math
+from geojson import Polygon
 
 def metadata_json(output_path, output_title, output_description, bbox, file_name):
     """
@@ -49,6 +51,14 @@ def metadata_json(output_path, output_title, output_description, bbox, file_name
     with open(join(output_path, '%s.json' % file_name), 'w') as f:
         f.write(metadata)
     return
+
+def round_down(val, round_val):
+    """Round a value down to the nearst value as set by the round val parameter"""
+    return math.floor(val / round_val) * round_val
+
+def round_up(val, round_val):
+    """Round a value up to the nearst value as set by the round val parameter"""
+    return math.ceil(val / round_val) * round_val
 
 # Set data paths
 data_path = os.getenv('DATA','/data')
@@ -150,7 +160,16 @@ with open(os.path.join(parameter_outputs_path,location + '-'+ ssp + '-' + year +
     f.write('ROOF_STORAGE, %s\n' %roof_storage)
     f.write('DISCHARGE, %s\n' %discharge_parameter)
     f.write('OUTPUT_INTERVAL, %s\n' %output_interval)
-
+ 
+boundary_1 = glob(boundary_path + "/*.*", recursive = True)
+boundary = gpd.read_file(boundary_1[0])
+bbox = boundary.bounds
+extents = 1000
+left = round_down(bbox.minx,extents)
+bottom = round_down(bbox.miny,extents)
+right = round_down(bbox.maxx,extents)
+top = round_down(bbox.maxy,extents)
+geojson = Polygon([[(left,top), (right,top), (right,bottom), (left,bottom)]])
     
 title_for_output = Location + ' - ' + ssp + ' - ' + year
 description_for_output_inputs = 'This data shows all of the input data generated to run the CityCat flooding model for the chosen city of ' + Location + ' for the year ' + year + ' and social economic scenario ' + ssp +'.'
