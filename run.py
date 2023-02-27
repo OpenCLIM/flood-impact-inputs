@@ -1,6 +1,7 @@
 import os
 import glob
 from glob import glob
+import geopandas as gpd
 import shutil
 import math
 from geojson import Polygon
