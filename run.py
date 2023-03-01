@@ -5,6 +5,7 @@ import geopandas as gpd
 import shutil
 import math
 from geojson import Polygon
+from os.path import join, isdir, isfile
 
 def metadata_json(output_path, output_title, output_description, bbox, file_name):
     """
