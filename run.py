@@ -6,6 +6,7 @@ import shutil
 import math
 from geojson import Polygon
 from os.path import join, isdir, isfile
+from datetime import datetime
 
 def metadata_json(output_path, output_title, output_description, bbox, file_name):
     """
