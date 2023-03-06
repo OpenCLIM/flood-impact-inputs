@@ -16,16 +16,25 @@ spec:
   inputs:
     parameters:
       - name: LOCATION
-        title: location
+        title: Location
         type: string
-        description: The city/location of interest
+        description: The city/location of interest.
         default: Newcastle
+        required: true
+        
+      - name: BASELINE
+        title: Baseline
+        description:
+          If no year or SSP is selected, set baseline = TRUE. This will run the simulation based off the current
+          building and greenspace data. No new buildings will be generated.
+        type: boolean
+        default: False
         required: true
 
       - name: YEAR
         title: Year
         type: number
-        description: The year of interest (range 2030-2080)
+        description: The year of interest (range 2030-2080).
         default: 2050
         required: true
         options:
@@ -37,7 +46,7 @@ spec:
       - name: SSP
         title: SSP
         type: string
-        description: The socio-economic pathway of interest
+        description: The socio-economic pathway of interest.
         default: 'ssp1'
         required: true
         options:
