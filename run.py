@@ -85,6 +85,7 @@ if not os.path.exists(meta_outputs_path):
 ssp = os.getenv('SSP')
 year = os.getenv('YEAR')
 location = os.getenv('LOCATION')
+baseline = os.getenv('BASELINE')
 rainfall_mode = os.getenv('RAINFALL_MODE')
 time_horizon = os.getenv('TIME_HORIZON')
 rainfall_total = int(os.getenv('TOTAL_DEPTH'))
@@ -163,6 +164,7 @@ with open(os.path.join(parameter_outputs_path,location + '-'+ ssp + '-' + year +
     f.write('ROOF_STORAGE, %s\n' %roof_storage)
     f.write('DISCHARGE, %s\n' %discharge_parameter)
     f.write('OUTPUT_INTERVAL, %s\n' %output_interval)
+    f.write('BASELINE, %\n' %baseline)
  
 boundary_1 = glob(boundary_path + "/*.*", recursive = True)
 boundary = gpd.read_file(boundary_1[0])
