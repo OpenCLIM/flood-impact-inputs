@@ -85,7 +85,7 @@ if not os.path.exists(meta_outputs_path):
 ssp = os.getenv('SSP')
 year = os.getenv('YEAR')
 location = os.getenv('LOCATION')
-baseline = os.getenv('BASELINE')
+baseline = (os.getenv('BASELINE').lower() == 'true')
 rainfall_mode = os.getenv('RAINFALL_MODE')
 time_horizon = os.getenv('TIME_HORIZON')
 rainfall_total = int(os.getenv('TOTAL_DEPTH'))
@@ -110,39 +110,42 @@ dst=os.path.join(boundary_outputs_path, location + '.gpkg')
 print('dst:',dst)
 shutil.copy(src,dst)
 
-# Identify which of the SSP datasets is needed and move into the correct output folder
-# Retain the file name containing the SSP and year
-ssps = glob(ssps_path + "/*.*",recursive = True)
-print('ssp_data:',ssps)
+print('Baseline:',baseline)
 
-filename=[]
-filename=['xx' for n in range(len(ssps))]
-print('filename:',filename)
+if baseline == False :
+  # Identify which of the SSP datasets is needed and move into the correct output folder
+  # Retain the file name containing the SSP and year
+  ssps = glob(ssps_path + "/*.*",recursive = True)
+  print('ssp_data:',ssps)
 
-# Create a list of all of the files in the folder
-for i in range(0,len(ssps)):
-    test = ssps[i]
-    file_path = os.path.splitext(test)
-    print('Filepath:',file_path)
-    filename[i]=file_path[0].split("/")
-    print('Filename:',filename[i])
+  filename=[]
+  filename=['xx' for n in range(len(ssps))]
+  print('filename:',filename)
 
-file =[]
+  # Create a list of all of the files in the folder
+  for i in range(0,len(ssps)):
+      test = ssps[i]
+      file_path = os.path.splitext(test)
+      print('Filepath:',file_path)
+      filename[i]=file_path[0].split("/")
+      print('Filename:',filename[i])
 
-# Identify which file in the list relates to the chosen year / SSP
-for i in range(0,len(ssps)):
-    if ssp in filename[i][-1]:
-        if year in filename[i][-1]:
-            file = ssps[i]
-            dst = os.path.join(outputs_path, filename[i][-1] + '.zip')
+  file =[]
 
-print('File:',file)
+  # Identify which file in the list relates to the chosen year / SSP
+  for i in range(0,len(ssps)):
+      if ssp in filename[i][-1]:
+          if year in filename[i][-1]:
+              file = ssps[i]
+              dst = os.path.join(outputs_path, filename[i][-1] + '.zip')
 
-# Move that file into the correct folder.
-src=file
-print('src:',src)
-print('dst:',dst)
-shutil.copy(src,dst)
+  print('File:',file)
+
+  # Move that file into the correct folder.
+  src=file
+  print('src:',src)
+  print('dst:',dst)
+  shutil.copy(src,dst)
 
 # Print all of the input parameters to an excel sheet to be read in later
 with open(os.path.join(parameter_outputs_path,location + '-'+ ssp + '-' + year +'-parameters.csv'), 'w') as f:
@@ -191,6 +194,3 @@ metadata_json(output_path=meta_outputs_path, output_title=title_for_output+'-out
 
 # write a metadata file so outputs properly recorded on DAFNI - for UDM AND CityCat outputs
 metadata_json(output_path=meta_outputs_path, output_title=title_for_output+'-output graphics', output_description=description_for_output_Vis, bbox=geojson, file_name='metadata_FIM_graphics')
-    
-    
-    
