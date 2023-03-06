@@ -164,7 +164,7 @@ with open(os.path.join(parameter_outputs_path,location + '-'+ ssp + '-' + year +
     f.write('ROOF_STORAGE, %s\n' %roof_storage)
     f.write('DISCHARGE, %s\n' %discharge_parameter)
     f.write('OUTPUT_INTERVAL, %s\n' %output_interval)
-    f.write('BASELINE, %\n' %baseline)
+    f.write('BASELINE, %s\n' %baseline)
  
 boundary_1 = glob(boundary_path + "/*.*", recursive = True)
 boundary = gpd.read_file(boundary_1[0])
