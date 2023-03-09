@@ -149,24 +149,24 @@ if ssp != "baseline" :
 
 # Print all of the input parameters to an excel sheet to be read in later
 with open(os.path.join(parameter_outputs_path,location + '-'+ ssp + '-' + year +'-parameters.csv'), 'w') as f:
-    f.write('PARAMETER, VALUE\n')
-    f.write('LOCATION, %s\n' %location)
-    f.write('SSP, %s\n' %ssp)
-    f.write('YEAR, %s\n' %year)
-    f.write('RAINFALL_MODE, %s\n' %rainfall_mode)
-    f.write('TIME_HORIZON, %s\n' %time_horizon)
-    f.write('TOTAL_DEPTH, %s\n' %rainfall_total)
-    f.write('SIZE, %s\n' %size)
-    f.write('DURATION, %s\n' %duration)   
-    f.write('POST_EVENT_DURATION, %s\n' %post_event_duration)
-    f.write('RETURN_PERIOD, %s\n' %return_period)
-    f.write('X, %s\n' %x)
-    f.write('Y, %s\n' %y)
-    f.write('OPEN_BOUNDARIES, %s\n' %open_boundaries)
-    f.write('PERMEABLE_AREAS, %s\n' %permeable_areas)
-    f.write('ROOF_STORAGE, %s\n' %roof_storage)
-    f.write('DISCHARGE, %s\n' %discharge_parameter)
-    f.write('OUTPUT_INTERVAL, %s\n' %output_interval)
+    f.write('PARAMETER,VALUE\n')
+    f.write('LOCATION,%s\n' %location)
+    f.write('SSP,%s\n' %ssp)
+    f.write('YEAR,%s\n' %year)
+    f.write('RAINFALL_MODE,%s\n' %rainfall_mode)
+    f.write('TIME_HORIZON,%s\n' %time_horizon)
+    f.write('TOTAL_DEPTH,%s\n' %rainfall_total)
+    f.write('SIZE,%s\n' %size)
+    f.write('DURATION,%s\n' %duration)   
+    f.write('POST_EVENT_DURATION,%s\n' %post_event_duration)
+    f.write('RETURN_PERIOD,%s\n' %return_period)
+    f.write('X,%s\n' %x)
+    f.write('Y,%s\n' %y)
+    f.write('OPEN_BOUNDARIES,%s\n' %open_boundaries)
+    f.write('PERMEABLE_AREAS,%s\n' %permeable_areas)
+    f.write('ROOF_STORAGE,%s\n' %roof_storage)
+    f.write('DISCHARGE,%s\n' %discharge_parameter)
+    f.write('OUTPUT_INTERVAL,%s\n' %output_interval)
     #f.write('BASELINE, %s\n' %baseline)
  
 boundary_1 = glob(boundary_path + "/*.*", recursive = True)
@@ -195,4 +195,4 @@ metadata_json(output_path=meta_outputs_path, output_title=title_for_output+'-out
 
 # write a metadata file so outputs properly recorded on DAFNI - for UDM AND CityCat outputs
 metadata_json(output_path=meta_outputs_path, output_title=title_for_output+'-output graphics', output_description=description_for_output_Vis, bbox=geojson, file_name='metadata_FIM_graphics')
-    
+  
