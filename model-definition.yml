@@ -1,7 +1,7 @@
 kind: M
 api_version: v1beta2
 metadata:
-  display_name: Data Inputs
+  display_name: Urban_Flooding - Data Inputs
   name: data-inputs
   publisher: Newcastle University
   summary: >
@@ -267,7 +267,18 @@ spec:
       
   outputs:
     datasets:
-      - name: outputs
+      - name: outputs/boundary/*
         type: folder
-        description: path to model outputs
+        description:
+          The city boundary file is saved in gpkg form.
         
+      - name: outputs/parameters/*
+        type: folder
+        description:
+          All parameters and their values are stored in a csv file.
+          
+      - name: outputs/metadata/*
+        type: folder
+        description:
+          NID metadata for outputs.
+          These file can be used for creating datasets on DAFNI with the title defined by the parameters specified by the user.
