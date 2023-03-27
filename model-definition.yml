@@ -64,7 +64,7 @@ spec:
           If the `TIME_HORIZON` is anything other than "baseline", the rainfall depth is then uplifted by the percentage given in the CSV file.
           If `RAINFALL_MODE` is set to "total_depth" then the `TOTAL_DEPTH` parameter is used to define the amount of rainfall and the `RETURN_PERIOD` and `TIME_HORIZON` parameters are ignored.
           The rainfall depth value, either directly provided or extracted from FUTURE-DRAINAGE, is used to generate a storm profile in combination with the summer profile and `DURATION` parameter.
-        default: return_period
+        default: total_depth
         required: true
         options:
           - name: return_period
