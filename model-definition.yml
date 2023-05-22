@@ -256,12 +256,14 @@ spec:
         description:
           Zip files of the data for each SSP.
         default:
+          - dddbfee9-8e6e-4fd4-90da-e6e162e40e78
           - 9b9607be-0b8f-49d4-b9cc-6426f8647edb
+          - 094f3b27-c7bb-4c05-9180-21159fee94d5
+          - d9e130bf-20b4-491c-88b7-3121779e5e75
+          - 8330a9e7-91f1-4f17-8c56-1a2099d4bad4
+          - 73e72727-0674-47d5-8951-dfbe12cec901
           - 230e2589-4731-4eba-8ab5-726a2f419fee
           - ef462ecf-3ef2-4400-af36-3e8bd4417205
-          - 73e72727-0674-47d5-8951-dfbe12cec901
-          - f428caa4-14da-4d71-8b1f-fe6bf123b08d
-          - 98b5c431-62d1-4f38-910d-e908569095d6
           - cd833da8-db1e-40b1-8e87-069cd792eb38
           - 082b1e14-dd36-4840-bd6c-45481ced2262
         path: inputs/ssps/
