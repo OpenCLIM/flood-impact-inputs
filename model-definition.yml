@@ -60,15 +60,15 @@ spec:
         title: Rainfall mode
         type: string
         description:
-          If `RAINFALL_MODE` is set to "return_period" then the rainfall depth corresponding to the `DURATION` and `RETURN_PERIOD` are extracted from the relevant CSV file in the `future-drainage` dataslot.
-          If the `TIME_HORIZON` is anything other than "baseline", the rainfall depth is then uplifted by the percentage given in the CSV file.
+          # If `RAINFALL_MODE` is set to "return_period" then the rainfall depth corresponding to the `DURATION` and `RETURN_PERIOD` are extracted from the relevant CSV file in the `future-drainage` dataslot.
+          # If the `TIME_HORIZON` is anything other than "baseline", the rainfall depth is then uplifted by the percentage given in the CSV file.
           If `RAINFALL_MODE` is set to "total_depth" then the `TOTAL_DEPTH` parameter is used to define the amount of rainfall and the `RETURN_PERIOD` and `TIME_HORIZON` parameters are ignored.
-          The rainfall depth value, either directly provided or extracted from FUTURE-DRAINAGE, is used to generate a storm profile in combination with the summer profile and `DURATION` parameter.
+          # The rainfall depth value, either directly provided or extracted from FUTURE-DRAINAGE, is used to generate a storm profile in combination with the summer profile and `DURATION` parameter.
         default: total_depth
         required: true
         options:
-          - name: return_period
-            title: Return Periods
+          # - name: return_period
+          #   title: Return Periods
           - name: total_depth
             title: Total depth
 
@@ -76,7 +76,7 @@ spec:
         title: Total depth (mm)
         description:
           The total depth of rainfall during the event.
-          This parameter is only used if `RAINFALL_MODE` is set to "total_depth".
+          #This parameter is only used if `RAINFALL_MODE` is set to "total_depth".
         type: number
         default: 40
         required: false
@@ -88,8 +88,8 @@ spec:
         description:
           The duration of the rainfall event.
           This value is used in combination with the rainfall depth and summer profile to generate a storm profile.
-          If `RAINFALL_MODE` is "return_period", this value is also used to extract a rainfall depth from FUTURE-DRAINAGE.
-          Only specific values are available as there is a limited number of durations within FUTURE-DRAINAGE.
+          #If `RAINFALL_MODE` is "return_period", this value is also used to extract a rainfall depth from FUTURE-DRAINAGE.
+          #Only specific values are available as there is a limited number of durations within FUTURE-DRAINAGE.
         type: string
         default: '1'
         required: true
