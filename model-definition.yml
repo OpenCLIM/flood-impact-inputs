@@ -31,10 +31,18 @@ spec:
         options:
           - name: 2020
             title: 2020
+          - name: 2035
+            title: 2035
           - name: 2050
             title: 2050
+          - name: 2055
+            title: 2055
+          - name: 2065
+            title: 2065
           - name: 2080
             title: 2080
+          - name: 2085
+            title: 2085
 
       - name: SSP
         title: SSP
