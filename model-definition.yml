@@ -210,16 +210,42 @@ spec:
         description:
           Zip files of the data for each SSP.
         default:
-          - dddbfee9-8e6e-4fd4-90da-e6e162e40e78
-          - 9b9607be-0b8f-49d4-b9cc-6426f8647edb
-          - 094f3b27-c7bb-4c05-9180-21159fee94d5
-          - d9e130bf-20b4-491c-88b7-3121779e5e75
-          - 8330a9e7-91f1-4f17-8c56-1a2099d4bad4
-          - 73e72727-0674-47d5-8951-dfbe12cec901
-          - 230e2589-4731-4eba-8ab5-726a2f419fee
-          - ef462ecf-3ef2-4400-af36-3e8bd4417205
-          - cd833da8-db1e-40b1-8e87-069cd792eb38
-          - 082b1e14-dd36-4840-bd6c-45481ced2262
+          - 7a0cd595-42a6-4546-8048-9e96dca621da
+          - 86cca88b-8aa0-4443-88ed-4aa588a968a0
+          - 973040d1-860b-4e67-8503-eca853009f06
+          - 8bdf31a3-01f3-413f-a44d-2b58a4982588
+          - b1fb23e0-a075-4af9-823a-bc7b4caefa26
+          - 0604b086-78dc-4024-84ab-986b17af5aed
+          - 47ce6479-0717-4e88-8699-8ecaf565725d
+          - 7ddfe894-821b-4538-952a-2a0da6a1dca7
+          - 2e8fb741-103e-416a-850e-00073f53fbeb
+          - de01fbea-0fa7-4b0f-bade-f04cd882ff09
+          - 22d29429-1e8d-4458-b094-b0273f82cb5b
+          - abeec947-4914-4c91-a8bc-8f9e02cc6175
+          - 97504c6c-1e57-4528-8d39-ff08017478f1
+          - aed9f85f-0021-4500-a48d-5876a93e3582
+          - 25086e53-6353-4ee3-80da-176ab3d6fdd0
+          - f3d79b1e-9f79-4d13-b2f3-7a0a2e8b9587
+          - ff8cde9c-efdb-4fd2-b457-0c6719a0b37f
+          - b210bc42-77cd-45db-94b2-9759b88fbf5e
+          - 55b94407-5109-4c1e-93f8-de32ec8bc25c
+          - 44325037-0b44-446c-a7af-6b0d9d133a4b
+          - 4ce57763-4b2c-4029-919c-552cd7af5c64
+          - 53b09ca1-73c1-48a2-a681-c48741a5198b
+          - 815b1c59-593d-4663-b1fe-270a1b29dc10
+          - 361bdf68-c2e6-4f9b-a713-47801ffb6470
+          - e900b291-57d2-472a-ac12-3590d9892544
+          - ac8d91d2-1e58-47f3-9a12-89775130727d
+          - 8af79264-09a2-4967-a7be-6e3d2d9653b5
+          - 9be3599a-e068-4f0d-965b-c67f8004c716
+          - 70a435b9-6013-4b70-b837-5fd3cdb993c8
+          - 271b0341-0a9b-4bdf-8eed-c011ef6159aa
+          - 40513a50-1455-4855-bc22-ab924a9823e2
+          - c4bde1e5-3e0b-42f5-b554-ce595d0f0364
+          - b3dcdc59-a7fc-49ac-8ce6-d76c8aad58d1
+          - b390d307-b7c4-478b-a640-e0a8f2fd1f3d
+          - 3d3feb87-849a-4942-9fe6-cdba50ca698c
+
         path: inputs/ssps/
         required: true
       
