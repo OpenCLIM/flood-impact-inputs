@@ -177,6 +177,7 @@ spec:
           This value is only used if no data is available in the `boundary` dataslot.
         type: number
         required: false
+        default: 0.1
         min: 0.1
         max: 10000
 
@@ -187,6 +188,7 @@ spec:
           This value is only used if no data is available in the `boundary` dataslot.
         type: integer
         required: false
+        default: 0
 
       - name: Y
         title: Domain Centroid Y (OSGB)
@@ -195,6 +197,7 @@ spec:
           This value is only used if no data is available in the `boundary` dataslot.
         type: integer
         required: false
+        default: 0
     
 
     dataslots:
