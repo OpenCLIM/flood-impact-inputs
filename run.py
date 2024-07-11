@@ -67,6 +67,7 @@ def round_up(val, round_val):
 # Set data paths
 data_path = os.getenv('DATA','/data')
 inputs_path = os.path.join(data_path, 'inputs')
+ssps_path = os.path.join(inputs_path, 'ssps')
 boundary_path = os.path.join(inputs_path, 'boundary')
 utm_zone_path = os.path.join(inputs_path, 'utm_zones')
 outputs_path = os.path.join(data_path, 'outputs')
@@ -84,6 +85,7 @@ if not os.path.exists(meta_outputs_path):
 
 # Read environment variables
 year = os.getenv('YEAR')
+ssp = os.getenv('SSP')
 country = os.getenv('COUNTRY')
 projection = os.getenv('PROJECTION')
 location = os.getenv('LOCATION')
@@ -125,6 +127,36 @@ print('src:',src)
 dst=os.path.join(boundary_outputs_path, location + '.gpkg')
 print('dst:',dst)
 shutil.copy(src,dst)
+
+if ssp != "baseline" :
+  # Identify which of the SSP datasets is needed and move into the correct output folder
+  # Retain the file name containing the SSP and year
+  ssps = glob(ssps_path + "/*.*",recursive = True)
+  print('ssp_data:',ssps)
+
+  filename=[]
+  filename=['xx' for n in range(len(ssps))]
+  print('filename:',filename)
+
+  # Create a list of all of the files in the folder
+  for i in range(0,len(ssps)):
+      test = ssps[i]
+      file_path = os.path.splitext(test)
+      print('Filepath:',file_path)
+      filename[i]=file_path[0].split("/")
+      print('Filename:',filename[i])
+
+  file =[]
+
+  # Identify which file in the list relates to the chosen year / SSP
+  for i in range(0,len(ssps)):
+      if ssp in filename[i][-1]:
+          if year in filename[i][-1]:
+              file = ssps[i]
+              dst = os.path.join(outputs_path, filename[i][-1] + '.zip')
+
+  print('File:',file)
+
 
 boundary_1 = glob(boundary_path + "/*.*", recursive = True)
 boundary = gpd.read_file(boundary_1[0])
@@ -175,7 +207,7 @@ if projection == '0' :
 with open(os.path.join(parameter_outputs_path,country + '-' + location + '-' + year +'-parameters.csv'), 'w') as f:
     f.write('PARAMETER,VALUE\n')
     f.write('LOCATION,%s\n' %location)
-    f.write('PROJECTION,%s\n' %projection)
+    f.write('SSP,%s\n' %ssp)
     f.write('YEAR,%s\n' %year)
     f.write('RAINFALL_MODE,%s\n' %rainfall_mode)  
     f.write('TOTAL_DEPTH,%s\n' %rainfall_total)
@@ -188,11 +220,11 @@ with open(os.path.join(parameter_outputs_path,country + '-' + location + '-' + y
     f.write('SIZE,%s\n' %size)
     f.write('X,%s\n' %x)
     f.write('Y,%s\n' %y)
+    f.write('PROJECTION,%s\n' %projection)
     #f.write('BASELINE, %s\n' %baseline)
     #f.write('TIME_HORIZON,%s\n' %time_horizon)
     #f.write('DISCHARGE,%s\n' %discharge_parameter)
     #f.write('RETURN_PERIOD,%s\n' %return_period)
-
 
 title_for_output = country + ' - ' + location + ' - ' + ' - ' + year
 
