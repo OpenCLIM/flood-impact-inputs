@@ -2,6 +2,7 @@ import os
 import glob
 from glob import glob
 import geopandas as gpd
+import pandas as pd
 import shutil
 import math
 from geojson import Polygon
@@ -66,8 +67,9 @@ def round_up(val, round_val):
 # Set data paths
 data_path = os.getenv('DATA','/data')
 inputs_path = os.path.join(data_path, 'inputs')
-ssps_path = os.path.join(inputs_path, 'ssps')
 boundary_path = os.path.join(inputs_path, 'boundary')
+utm_zone_path = os.path.join(inputs_path, 'utm_zones')
+utm_code_path = os.path.join(inputs_path,'utm_codes')
 outputs_path = os.path.join(data_path, 'outputs')
 if not os.path.exists(outputs_path):
     os.mkdir(outputs_path)
@@ -82,8 +84,9 @@ if not os.path.exists(meta_outputs_path):
     os.mkdir(meta_outputs_path)
 
 # Read environment variables
-ssp = os.getenv('SSP')
 year = os.getenv('YEAR')
+country = os.getenv('COUNTRY')
+projection = os.getenv('PROJECTION')
 location = os.getenv('LOCATION')
 rainfall_mode = os.getenv('RAINFALL_MODE')
 rainfall_total = int(os.getenv('TOTAL_DEPTH'))
@@ -124,48 +127,56 @@ dst=os.path.join(boundary_outputs_path, location + '.gpkg')
 print('dst:',dst)
 shutil.copy(src,dst)
 
-#print('Baseline:',baseline)
+boundary_1 = glob(boundary_path + "/*.*", recursive = True)
+boundary = gpd.read_file(boundary_1[0])
+bbox = boundary.bounds
+extents = 1000
+left = round_down(bbox.minx,extents)
+bottom = round_down(bbox.miny,extents)
+right = round_down(bbox.maxx,extents)
+top = round_down(bbox.maxy,extents)
+geojson = Polygon([[(left,top), (right,top), (right,bottom), (left,bottom)]])
 
-if ssp != "baseline" :
-  # Identify which of the SSP datasets is needed and move into the correct output folder
-  # Retain the file name containing the SSP and year
-  ssps = glob(ssps_path + "/*.*",recursive = True)
-  print('ssp_data:',ssps)
+print('projection:',projection)
 
-  filename=[]
-  filename=['xx' for n in range(len(ssps))]
-  print('filename:',filename)
+if projection == '0' :
+  print('yes')
 
-  # Create a list of all of the files in the folder
-  for i in range(0,len(ssps)):
-      test = ssps[i]
-      file_path = os.path.splitext(test)
-      print('Filepath:',file_path)
-      filename[i]=file_path[0].split("/")
-      print('Filename:',filename[i])
+  # Read in the UTM shapefile which contains all the geographical zones
+  utms_1 = glob(utm_zone_path + "/*.gpkg", recursive = True)
+  print('utms:',utms_1)
+  utms = gpd.read_file(utms_1[0])
 
-  file =[]
+  # Ensure all of the polygons are defined by the same crs
+  boundary.set_crs(epsg=3857, inplace=True, allow_override=True)
+  utms.set_crs(epsg=3857, inplace=True, allow_override=True)
 
-  # Identify which file in the list relates to the chosen year / SSP
-  for i in range(0,len(ssps)):
-      if ssp in filename[i][-1]:
-          if year in filename[i][-1]:
-              file = ssps[i]
-              dst = os.path.join(outputs_path, filename[i][-1] + '.zip')
+  utm_area = gpd.overlay(boundary, utms, how='intersection')
+  utm_area['area'] = utm_area.geometry.area
+  utm_area.sort_values(by='area',inplace=True)
+  utm_area.drop_duplicates(subset='ZONE',keep='last',inplace=True)
+  utm_area.drop(columns=['area'],inplace=True)
+  print(utm_area)
 
-  print('File:',file)
+  zone = str(int(utm_area.ZONE[0]))
+  print('zone:',zone)
+  row = utm_area.ROW_[0]
+  print('row:',row)  
 
-  # Move that file into the correct folder.
-  src=file
-  print('src:',src)
-  print('dst:',dst)
-  shutil.copy(src,dst)
+  number = ord(row)-64
+  if number >= 14 :
+     projection = '326' + zone
+  else:
+     projection = '327' + zone
+
+  print('projection:',projection)
+  
 
 # Print all of the input parameters to an excel sheet to be read in later
-with open(os.path.join(parameter_outputs_path,location + '-'+ ssp + '-' + year +'-parameters.csv'), 'w') as f:
+with open(os.path.join(parameter_outputs_path,country + '-' + location + '-' + year +'-parameters.csv'), 'w') as f:
     f.write('PARAMETER,VALUE\n')
     f.write('LOCATION,%s\n' %location)
-    f.write('SSP,%s\n' %ssp)
+    f.write('PROJECTION,%s\n' %projection)
     f.write('YEAR,%s\n' %year)
     f.write('RAINFALL_MODE,%s\n' %rainfall_mode)  
     f.write('TOTAL_DEPTH,%s\n' %rainfall_total)
@@ -183,29 +194,22 @@ with open(os.path.join(parameter_outputs_path,location + '-'+ ssp + '-' + year +
     #f.write('DISCHARGE,%s\n' %discharge_parameter)
     #f.write('RETURN_PERIOD,%s\n' %return_period)
 
-boundary_1 = glob(boundary_path + "/*.*", recursive = True)
-boundary = gpd.read_file(boundary_1[0])
-bbox = boundary.bounds
-extents = 1000
-left = round_down(bbox.minx,extents)
-bottom = round_down(bbox.miny,extents)
-right = round_down(bbox.maxx,extents)
-top = round_down(bbox.maxy,extents)
-geojson = Polygon([[(left,top), (right,top), (right,bottom), (left,bottom)]])
-    
-SSP=ssp.upper()
 
-title_for_output = location + ' - ' + SSP + ' - ' + year
+title_for_output = country + ' - ' + location + ' - ' + ' - ' + year
 
-description_for_output_inputs = 'This data shows all of the input data generated to run the CityCat flooding model for the chosen city of ' + location + ' for the year ' + year + ' and social economic scenario ' + SSP +'.'
-description_for_output_FIM = 'This data shows the flood impact data generated by the CityCat flooding model for the chosen city of ' + location + ' for the year ' + year + ' and social economic scenario ' + SSP +'.'
-description_for_output_Vis = 'These maps and graphics show flood impact metrics for the chosen city of ' + location + ' for the year ' + year + ' and social economic scenario ' + SSP +'.'  
+description_for_output_inputs = 'This data shows all of the input data generated to run the CityCat flooding model for the chosen city of ' + location + ' for the year ' + year +'.'
+description_for_output_FIM = 'This data shows the flood impact data generated by the CityCat flooding model for the chosen city of ' + location + ' for the year ' + year + '.'
+description_for_output_Vis = 'These maps and graphics show flood impact metrics for the chosen city of ' + location + ' for the year ' + year + '.'  
    
 # write a metadata file so outputs properly recorded on DAFNI
 metadata_json(output_path=meta_outputs_path, output_title=title_for_output+'-inputs', output_description=description_for_output_inputs, bbox=geojson, file_name='metadata_citycat_inputs')
 
 # write a metadata file so inputs properly recorded on DAFNI - for ease of use adds onto info provided for outputs
 metadata_json(output_path=meta_outputs_path, output_title=title_for_output+'-output data', output_description=description_for_output_FIM, bbox=geojson, file_name='metadata_FIM_data')
+
+# write a metadata file so outputs properly recorded on DAFNI - for UDM AND CityCat outputs
+metadata_json(output_path=meta_outputs_path, output_title=title_for_output+'-output graphics', output_description=description_for_output_Vis, bbox=geojson, file_name='metadata_FIM_graphics')
+
 
 # write a metadata file so outputs properly recorded on DAFNI - for UDM AND CityCat outputs
 metadata_json(output_path=meta_outputs_path, output_title=title_for_output+'-output graphics', output_description=description_for_output_Vis, bbox=geojson, file_name='metadata_FIM_graphics')
