@@ -69,7 +69,6 @@ data_path = os.getenv('DATA','/data')
 inputs_path = os.path.join(data_path, 'inputs')
 boundary_path = os.path.join(inputs_path, 'boundary')
 utm_zone_path = os.path.join(inputs_path, 'utm_zones')
-utm_code_path = os.path.join(inputs_path,'utm_codes')
 outputs_path = os.path.join(data_path, 'outputs')
 if not os.path.exists(outputs_path):
     os.mkdir(outputs_path)
