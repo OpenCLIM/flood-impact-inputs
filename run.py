@@ -177,10 +177,13 @@ if projection == '0' :
   utms_1 = glob(utm_zone_path + "/*.gpkg", recursive = True)
   print('utms:',utms_1)
   utms = gpd.read_file(utms_1[0])
-
+    
+  print('boundary:', boundary.crs)
+  print('zones:',utms.crs)
+  
   # Ensure all of the polygons are defined by the same crs
-  boundary.set_crs(epsg=3857, inplace=True, allow_override=True)
-  utms.set_crs(epsg=3857, inplace=True, allow_override=True)
+  boundary.to_crs(epsg=3857, inplace=True)
+  utms.to_crs(epsg=3857, inplace=True)
 
   utm_area = gpd.overlay(boundary, utms, how='intersection')
   utm_area['area'] = utm_area.geometry.area
@@ -240,7 +243,6 @@ metadata_json(output_path=meta_outputs_path, output_title=title_for_output+'-out
 
 # write a metadata file so outputs properly recorded on DAFNI - for UDM AND CityCat outputs
 metadata_json(output_path=meta_outputs_path, output_title=title_for_output+'-output graphics', output_description=description_for_output_Vis, bbox=geojson, file_name='metadata_FIM_graphics')
-
 
 # write a metadata file so outputs properly recorded on DAFNI - for UDM AND CityCat outputs
 metadata_json(output_path=meta_outputs_path, output_title=title_for_output+'-output graphics', output_description=description_for_output_Vis, bbox=geojson, file_name='metadata_FIM_graphics')
