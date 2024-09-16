@@ -119,9 +119,9 @@ print(size)
 # Rename based on the location of the city of interest
 boundary = glob(boundary_path + "/*.*", recursive = True)
 src=boundary[0]
-print('src:',src)
+#print('src:',src)
 dst=os.path.join(boundary_outputs_path, location + '.gpkg')
-print('dst:',dst)
+#print('dst:',dst)
 shutil.copy(src,dst)
 
 #print('Baseline:',baseline)
@@ -134,15 +134,15 @@ if ssp != "baseline" :
 
   filename=[]
   filename=['xx' for n in range(len(ssps))]
-  print('filename:',filename)
+  #print('filename:',filename)
 
   # Create a list of all of the files in the folder
   for i in range(0,len(ssps)):
       test = ssps[i]
       file_path = os.path.splitext(test)
-      print('Filepath:',file_path)
+      #print('Filepath:',file_path)
       filename[i]=file_path[0].split("/")
-      print('Filename:',filename[i])
+      #print('Filename:',filename[i])
 
   file =[]
 
@@ -153,12 +153,12 @@ if ssp != "baseline" :
               file = ssps[i]
               dst = os.path.join(outputs_path, filename[i][-1] + '.zip')
 
-  print('File:',file)
+  #print('File:',file)
 
   # Move that file into the correct folder.
   src=file
-  print('src:',src)
-  print('dst:',dst)
+  #print('src:',src)
+  #print('dst:',dst)
   shutil.copy(src,dst)
 
 # Print all of the input parameters to an excel sheet to be read in later
