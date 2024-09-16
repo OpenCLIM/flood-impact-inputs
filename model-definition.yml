@@ -1,7 +1,9 @@
 kind: M
-api_version: v1beta2
+api_version: v1beta3
 metadata:
   display_name: Urban_Flooding:Data Inputs
+  contact_point_name: Olivia Butters
+  contact_point_email: olivia.butters@newcastle.ac.uk
   name: data-inputs
   publisher: Newcastle University
   summary: >
